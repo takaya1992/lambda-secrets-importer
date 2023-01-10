@@ -33,7 +33,7 @@
     "eslint": "eslint",
     "prettier:check": "prettier --check .",
     "prettier:format": "prettier --write .",
-    "prepare": "husky install"
+    "husky": "husky install"
   },
   "devDependencies": {
     "@types/jest": "^29.2.5",
