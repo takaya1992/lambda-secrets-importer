@@ -4,7 +4,7 @@ import { transformSecrets, normalizeSecretsManagerKeys } from './keys';
 
 const secretsImport = async (fetcher: FetchSecret = fetchSecret) => {
   const secretsManagerKeys = JSON.parse(
-    process.env['SECRETS_MANAGER_KEYS'],
+    process.env['SECRETS_MANAGER_KEYS'] || '{}',
   ) as Record<string, string>;
   const normalizedSecretManagerKeys =
     normalizeSecretsManagerKeys(secretsManagerKeys);
@@ -13,7 +13,7 @@ const secretsImport = async (fetcher: FetchSecret = fetchSecret) => {
 
   const keys: Record<string, string> = {};
 
-  const loop = async (counter: number, max: number) => {
+  const loop = async (counter: number, max: number): Promise<void> => {
     if (counter >= max) {
       return Promise.resolve();
     }
