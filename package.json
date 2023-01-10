@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "typecheck": "tsc --noEmit",
     "eslint": "eslint",
     "prettier:check": "prettier --check .",
     "prettier:format": "prettier --write .",
