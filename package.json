@@ -4,6 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build:package": "node build.mjs",
+    "build:types": "tsc --declaration --emitDeclarationOnly --declarationDir './dist'",
+    "build:clean": "rm -rf ./dist",
+    "build": "npm run build:clean && concurrently 'npm:build:*(!clean)'",
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "eslint": "eslint",
