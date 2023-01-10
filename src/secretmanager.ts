@@ -33,9 +33,9 @@ export const fetchSecret: FetchSecret = async ({
     params.set('versionId', versionId);
   }
   url.search = params.toString();
-  const headers = {
-    'X-Aws-Parameters-Secrets-Token': process.env['AWS_SESSION_TOKEN'],
-  };
+  const headers = new Headers({
+    'X-Aws-Parameters-Secrets-Token': process.env['AWS_SESSION_TOKEN'] || '',
+  });
   const response = await fetch(url.toString(), { headers });
   return response.json() as Promise<SecretResponse>;
 };

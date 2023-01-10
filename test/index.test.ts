@@ -1,6 +1,6 @@
 import { secretsImport, FetchSecret } from '../src/index';
 
-const DB = {
+const DB: Record<string, string> = {
   secretNameA: 'secretBodyA',
   secretNameB: JSON.stringify({ keyA: 'keyBodyA', keyB: 'keyBodyB' }),
   secretNameC: 'secretBodyC',
@@ -17,7 +17,7 @@ const mockedFetchSecret: FetchSecret = (params) => {
         ARN: 'a',
         CreatedDate: 1,
         Name: params.secretName,
-        SecretBinary: undefined,
+        SecretBinary: new Blob(),
         SecretString: record,
         VersionId: '',
         VersionStages: [],
