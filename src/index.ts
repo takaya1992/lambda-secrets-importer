@@ -2,7 +2,7 @@ import { fetchSecret } from './secretmanager';
 import type { FetchSecret } from './secretmanager';
 import { transformSecrets, normalizeSecretsManagerKeys } from './keys';
 
-export const secretsImport = async (fetcher: FetchSecret = fetchSecret) => {
+const secretsImport = async (fetcher: FetchSecret = fetchSecret) => {
   const secretsManagerKeys = JSON.parse(
     process.env['SECRETS_MANAGER_KEYS'],
   ) as Record<string, string>;
@@ -56,3 +56,4 @@ export const secretsImport = async (fetcher: FetchSecret = fetchSecret) => {
 };
 
 export type { FetchSecret };
+export { fetchSecret, secretsImport };
