@@ -1,8 +1,28 @@
 {
   "name": "lambda-secrets-importer",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "import Secrets Manager secrets into AWS Lambda as environment variables.",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:takaya1992/lambda-secrets-importer.git"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "secretsmanager"
+  ],
+  "author": "takaya1992 <tky.c10ver@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/takaya1992/lambda-secrets-importer/issues"
+  },
+  "homepage": "https://github.com/takaya1992/lambda-secrets-importer#readme",
   "scripts": {
     "build:package": "node build.mjs",
     "build:types": "tsc --declaration --emitDeclarationOnly --declarationDir './dist'",
@@ -15,9 +35,6 @@
     "prettier:format": "prettier --write .",
     "prepare": "husky install"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",
