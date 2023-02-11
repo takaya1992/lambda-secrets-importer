@@ -9,7 +9,7 @@ const secretsImportToEnv = async (fetcher: FetchSecret = fetchSecret) => {
   const normalizedSecretManagerKeys =
     normalizeSecretsManagerKeys(secretsManagerKeys);
 
-  const secretKeys = transformSecrets(Object.values(secretsManagerKeys));
+  const secretKeys =  transformSecrets(Object.values(secretsManagerKeys));
 
   const keys: Record<string, string> = {};
 
