@@ -1,11 +1,13 @@
 name: Test
 on:
   - pull_request
-
 jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      checks: write
+
     steps:
       - uses: actions/checkout@v3
 
