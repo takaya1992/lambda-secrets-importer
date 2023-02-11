@@ -1,0 +1,40 @@
+name: Test
+on:
+  - pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - run: npm ci
+
+      - uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
+
+      - name: Run Prettier
+        run: npm run prettier:check
+
+      - name: Run ESLint
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm run eslint -s -- --format checkstyle | reviewdog -f=checkstyle -name="ESLint" -reporter=github-pr-check
+
+      - name: Run typecheck
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npx tsc --pretty false --noEmit | reviewdog -f=tsc -name="Type check" -reporter=github-pr-check
+
+      - name: Run test
+        run: |
+          npm test
