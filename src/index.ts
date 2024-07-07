@@ -2,10 +2,10 @@ import { fetchSecret } from './secretmanager';
 import type { FetchSecret } from './secretmanager';
 import { transformSecrets, normalizeSecretsManagerKeys } from './keys';
 
-const secretsImportToEnv = async (fetcher: FetchSecret = fetchSecret) => {
-  const secretsManagerKeys = JSON.parse(
-    process.env['SECRETS_MANAGER_KEYS'] || '{}',
-  ) as Record<string, string>;
+const secretsImport = async <T extends Record<string, string>>(
+  secretsManagerKeys: T,
+  fetcher: FetchSecret = fetchSecret,
+): Promise<Record<keyof T, string>> => {
   const normalizedSecretManagerKeys =
     normalizeSecretsManagerKeys(secretsManagerKeys);
 
@@ -49,13 +49,28 @@ const secretsImportToEnv = async (fetcher: FetchSecret = fetchSecret) => {
 
   await loop(0, secretKeys.length);
 
-  Object.keys(normalizedSecretManagerKeys).forEach((envName) => {
-    const keyName = normalizedSecretManagerKeys[envName];
-    process.env[envName] = keys[keyName];
+  const result: Record<string, string> = {};
+  Object.keys(normalizedSecretManagerKeys).forEach((key) => {
+    const keyName = normalizedSecretManagerKeys[key];
+    result[key] = keys[keyName];
   });
+  return result as Record<keyof T, string>;
 };
 
-const secretsImport = secretsImportToEnv;
+/**
+ * Import secret as  environment variables
+ *
+ * @deprecated
+ */
+const secretsImportToEnv = async (
+  secretsManagerKeys: Record<string, string>,
+  fetcher: FetchSecret = fetchSecret,
+) => {
+  const result = await secretsImport(secretsManagerKeys, fetcher);
+  Object.keys(result).forEach((key) => {
+    process.env[key] = result[key];
+  });
+};
 
 export type { FetchSecret };
 export { fetchSecret, secretsImport, secretsImportToEnv };

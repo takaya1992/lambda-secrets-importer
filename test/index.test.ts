@@ -1,4 +1,4 @@
-import { secretsImport, FetchSecret } from '../src/index';
+import { secretsImportToEnv, FetchSecret } from '../src/index';
 
 const DB: Record<string, string> = {
   secretNameA: 'secretBodyA',
@@ -26,12 +26,15 @@ const mockedFetchSecret: FetchSecret = (params) => {
   });
 };
 
-describe('secretsImport', () => {
+describe('secretsImportToEnv', () => {
   test('success', async () => {
     process.env['SECRETS_MANAGER_KEYS'] =
       '{"ENV_A": "secretNameA", "ENV_B1": "secretNameB:keyA", "ENV_B2": "secretNameB:keyB", "ENV_C": "secretNameC"}';
 
-    await secretsImport(mockedFetchSecret);
+    await secretsImportToEnv(
+      JSON.parse(process.env.SECRETS_MANAGER_KEYS),
+      mockedFetchSecret,
+    );
 
     expect(process.env['ENV_A']).toBe('secretBodyA');
     expect(process.env['ENV_B1']).toBe('keyBodyA');
