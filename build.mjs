@@ -1,6 +1,6 @@
 import process from 'node:process';
 import { build } from 'esbuild';
-import glob from 'glob';
+import { glob } from 'glob';
 import packageJson from './package.json' assert { type: 'json' };
 
 glob('src/**/*.ts', (err, matches) => {
