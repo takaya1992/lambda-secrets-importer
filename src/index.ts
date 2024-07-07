@@ -2,10 +2,10 @@ import { fetchSecret } from './secretmanager';
 import type { FetchSecret } from './secretmanager';
 import { transformSecrets, normalizeSecretsManagerKeys } from './keys';
 
-const secretsImport = async (
-  secretsManagerKeys: Record<string, string>,
+const secretsImport = async <T extends Record<string, string>>(
+  secretsManagerKeys: T,
   fetcher: FetchSecret = fetchSecret,
-) => {
+): Promise<Record<keyof T, string>> => {
   const normalizedSecretManagerKeys =
     normalizeSecretsManagerKeys(secretsManagerKeys);
 
@@ -54,9 +54,14 @@ const secretsImport = async (
     const keyName = normalizedSecretManagerKeys[key];
     result[key] = keys[keyName];
   });
-  return result;
+  return result as Record<keyof T, string>;
 };
 
+/**
+ * Import secret as  environment variables
+ *
+ * @deprecated
+ */
 const secretsImportToEnv = async (
   secretsManagerKeys: Record<string, string>,
   fetcher: FetchSecret = fetchSecret,
